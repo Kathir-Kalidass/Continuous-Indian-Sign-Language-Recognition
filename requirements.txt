@@ -1,0 +1,6 @@
+numpy>=1.26,<2.0
+mediapipe==0.10.21
+matplotlib>=3.8,<4.0
+scikit-learn>=1.4,<2.0
+tensorflow==2.16.2
+Flask==3.0.3

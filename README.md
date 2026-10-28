@@ -50,3 +50,76 @@ The dataset consists of 5000+ data points. The format of data is .npy, which mea
 2. Implementation of Mediapipe
 3. Calling the Trained Model
 4. Implementation of Recoginition Model
+
+## Live Webcam Demo
+
+This repository now includes a standalone webcam demo script: `live_demo.py`.
+It also includes a browser-based demo: `web_demo.py`.
+
+### Setup
+
+```bash
+python3 -m venv .venv
+./.venv/bin/pip install -r requirements.txt
+```
+
+### Run
+
+```bash
+./.venv/bin/python live_demo.py
+```
+
+If your webcam is not on index `0`, try:
+
+```bash
+./.venv/bin/python live_demo.py --camera 1
+```
+
+### Recognized Words
+
+The trained model in this repository recognizes these 6 signs:
+
+- HI
+- THANKS
+- FISH
+- COW
+- PLANE
+- CYCLING
+
+The live demo shows:
+
+- the webcam feed
+- MediaPipe pose and hand landmarks
+- per-word confidence bars
+- a rolling sentence made from the recognized signs
+
+Controls:
+
+- press `q` to quit
+- press `c` to clear the sentence
+
+## Browser Demo
+
+To use the camera directly in your web browser with a permission prompt:
+
+```bash
+./.venv/bin/python web_demo.py
+```
+
+Then open:
+
+```text
+http://127.0.0.1:8000
+```
+
+In the page:
+
+- click `Start Camera`
+- allow the browser camera permission
+- perform one of the trained signs
+- watch the sentence and confidence scores update live
+
+Extra controls:
+
+- `Stop` turns the browser camera off
+- `Clear Sentence` resets the running sentence

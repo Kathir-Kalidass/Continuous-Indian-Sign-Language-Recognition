@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ISL Browser Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <p class="eyebrow">Continuous Indian Sign Language Recognition</p>
+        <h1>Browser camera demo</h1>
+        <p class="intro">
+          Start the camera in your browser, grant permission, and the app will
+          turn your sign sequence into a sentence using the trained LSTM model.
+        </p>
+        <div class="controls">
+          <button id="startButton" class="primary">Start Camera</button>
+          <button id="stopButton" class="secondary" disabled>Stop</button>
+          <button id="clearButton" class="ghost">Clear Sentence</button>
+        </div>
+        <p id="status" class="status">Camera is idle.</p>
+      </section>
+
+      <section class="panel-grid">
+        <article class="panel video-panel">
+          <div class="panel-head">
+            <h2>Live Camera</h2>
+            <span class="badge">Threshold {{ "%.2f"|format(threshold) }}</span>
+          </div>
+          <video id="video" autoplay playsinline muted></video>
+          <canvas id="captureCanvas" hidden></canvas>
+        </article>
+
+        <article class="panel sentence-panel">
+          <div class="panel-head">
+            <h2>Sentence Output</h2>
+            <span class="badge" id="modelState">Warming up</span>
+          </div>
+          <p id="sentenceText" class="sentence">Perform a sign</p>
+          <div class="meta-row">
+            <div>
+              <p class="meta-label">Current word</p>
+              <p id="predictedWord" class="meta-value">Waiting...</p>
+            </div>
+            <div>
+              <p class="meta-label">Confidence</p>
+              <p id="confidenceValue" class="meta-value">0.00</p>
+            </div>
+          </div>
+          <div class="words">
+            {% for word in words %}
+            <span class="chip">{{ word }}</span>
+            {% endfor %}
+          </div>
+        </article>
+
+        <article class="panel probs-panel">
+          <div class="panel-head">
+            <h2>Word Scores</h2>
+            <span class="badge">6 classes</span>
+          </div>
+          <div id="probabilityList" class="probability-list">
+            {% for word in words %}
+            <div class="prob-row" data-word="{{ word }}">
+              <div class="prob-labels">
+                <span>{{ word }}</span>
+                <span class="prob-value">0.00</span>
+              </div>
+              <div class="prob-track">
+                <div class="prob-fill"></div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script>
+      window.APP_CONFIG = {
+        words: {{ words|tojson }}
+      };
+    </script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>
